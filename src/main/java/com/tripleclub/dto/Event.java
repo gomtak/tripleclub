@@ -6,12 +6,12 @@ import java.util.List;
 import java.util.UUID;
 
 @Data
-public class Events {
+public class Event {
     private String type;
     private String action; /* "ADD", "MOD", "DELETE" */
-    private UUID reviewId;
+    private String reviewId;
     private String content;
-    private List<UUID> attachedPhotoIds;
-    private UUID userId;
-    private UUID placeId;
+    private List<String> attachedPhotoIds;
+    private String userId;
+    private String placeId;
 }
