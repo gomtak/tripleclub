@@ -1,13 +1,14 @@
 package com.tripleclub.entity;
 
-import javax.persistence.Column;
+import lombok.Data;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.util.UUID;
 
 @Entity
-public class AttachedPhoto {
+@Data
+public class Place {
     @Id
-    @Column(name = "attached_photo_id")
-    private UUID attachedPhotoId;
+    private UUID placeId;
 }
