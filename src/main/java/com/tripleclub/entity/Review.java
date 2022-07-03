@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -15,10 +16,11 @@ public class Review {
     @Id
     private UUID reviewId;
     private String content;
+
     @OneToMany
-    @JoinColumn(name = "attached_photo_id")
-    private List<AttachedPhoto> attachedPhoto;
-    @OneToOne
+    @JoinColumn(name = "attached_photo_ids")
+    private List<AttachedPhoto> attachedPhotoIds = new ArrayList<>();
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
     @OneToOne
@@ -29,10 +31,10 @@ public class Review {
     private boolean isFirst;
 
     @Builder
-    public Review(UUID reviewId, String content, List<AttachedPhoto> attachedPhoto, User user, Place place, boolean isFirst) {
+    public Review(UUID reviewId, String content, List<AttachedPhoto> attachedPhotoIds, User user, Place place, boolean isFirst) {
         this.reviewId = reviewId;
         this.content = content;
-        this.attachedPhoto = attachedPhoto;
+        this.attachedPhotoIds = attachedPhotoIds;
         this.user = user;
         this.place = place;
         this.isFirst = isFirst;
@@ -40,7 +42,7 @@ public class Review {
     public int countPoint() {
         int count = 0;
         if(this.content.length()>0) count ++;
-        if(this.attachedPhoto.size()>0) count ++;
+        if(this.attachedPhotoIds.size()>0) count ++;
         return count;
     }
 }

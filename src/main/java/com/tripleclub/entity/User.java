@@ -2,10 +2,8 @@ package com.tripleclub.entity;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -13,8 +11,8 @@ import java.util.UUID;
 @Data
 public class User {
     @Id
+    @Column(name = "user_id")
     private UUID userId;
-    @OneToMany
-    @JoinColumn(name = "mileage_id")
-    private List<Mileage> mileage;
+    @OneToMany(mappedBy = "user")
+    private List<Mileage> mileage = new ArrayList<>();
 }

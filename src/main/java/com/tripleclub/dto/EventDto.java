@@ -10,10 +10,9 @@ import java.util.UUID;
 public class EventDto {
     private String type;
     private String action; /* "ADD", "MOD", "DELETE" */
-
-    private UUID reviewId;
+    private String reviewId;
     private String content;
-    private List<AttachedPhoto> attachedPhotoIds;
-    private UUID userId;
-    private UUID placeId;
+    private List<String> attachedPhotoIds;
+    private String userId;
+    private String placeId;
 }
