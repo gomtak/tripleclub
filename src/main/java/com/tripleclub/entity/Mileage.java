@@ -1,6 +1,7 @@
 package com.tripleclub.entity;
 
 import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -8,6 +9,7 @@ import java.util.UUID;
 
 @Entity
 @NoArgsConstructor
+@Data
 public class Mileage extends BaseEntity{
     @Id
     @Column(name = "mileage_id")
@@ -20,6 +22,8 @@ public class Mileage extends BaseEntity{
     private Review review;
     private int point;
 
+    @Column(name = "is_bonus")
+    private int isBonus;
     @Builder
     public Mileage(UUID mileageId, User user, Review review, int point) {
         this.mileageId = mileageId;

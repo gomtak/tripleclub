@@ -32,6 +32,7 @@ public class EventService {
                 .user(userRepository.findById(eventDto.getUserId()).orElseThrow())
                 .place(placeRepository.findById(eventDto.getPlaceId()).orElseThrow())
                 .build();
+        review.setFirst(reviewRepository.findByPlaceId(eventDto.getPlaceId())==null?true:false);
         reviewRepository.save(review);
         saveMileage(review);
 
@@ -55,26 +56,13 @@ public class EventService {
         return userRepository.findById(eventDto.getUserId()).orElseThrow();
     }
     public void saveMileage(Review review){
-        Mileage mileage = mileageRepository.findByReviewId(review.getReviewId())
-                            .orElse(Mileage.builder()
-                                .mileageId(UUID.randomUUID())
-                                .point(countPoint(review))
-                                .review(review)
-                                .user(review.getUser()).build());
+        Mileage mileage = mileageRepository.findByReviewId(review.getReviewId()).orElse(mileage = Mileage.builder()
+                .mileageId(UUID.randomUUID())
+                .review(review)
+                .user(review.getUser()).build());
+        mileage.setPoint(review.isFirst()?review.countPoint()+1:review.countPoint());
         mileageRepository.save(mileage);
     }
 
-    private int countPoint(Review review) {
-        int count = 0;
-        if(review.getContent().length()>1){
-            count++;
-        }
-        if(review.getAttachedPhoto().size()>1){
-            count++;
-        }
-        if(placeRepository.findById(review.getPlace().getPlaceId()).isEmpty()){
-            count++;
-        }
-        return count;
-    }
+
 }
