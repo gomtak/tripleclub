@@ -3,6 +3,7 @@ package com.tripleclub.entity;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -14,12 +15,13 @@ import java.util.UUID;
 @NoArgsConstructor
 public class Review {
     @Id
+    @Type(type="uuid-char")
     private UUID reviewId;
     private String content;
 
-    @OneToMany
-    @JoinColumn(name = "attached_photo_ids")
+    @OneToMany(mappedBy = "review")
     private List<AttachedPhoto> attachedPhotoIds = new ArrayList<>();
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;

@@ -1,6 +1,7 @@
 package com.tripleclub.entity;
 
 import lombok.Data;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,6 +12,7 @@ import java.util.UUID;
 @Data
 public class Place {
     @Id
+    @Type(type="uuid-char")
     @Column(name = "place_id")
     private UUID placeId;
 }

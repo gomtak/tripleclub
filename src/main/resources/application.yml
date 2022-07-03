@@ -8,12 +8,12 @@ spring:
   jpa:
     database-platform: org.hibernate.dialect.MariaDB103Dialect
     hibernate:
-      ddl-auto: none
+      ddl-auto: create
     show-sql: true
     generate-ddl: true
 
-#sql:
-#  init:
-#      schema-locations: classpath*:sql/schema.sql
-#      data-locations: classpath*:sql/code_info_data.sql
-#      mode: always
+sql:
+  init:
+      schema-locations: classpath*:sql/schema.sql
+      data-locations: classpath*:sql/data.sql
+      mode: always
