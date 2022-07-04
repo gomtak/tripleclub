@@ -1,6 +1,6 @@
 package com.tripleclub.controller;
 
-import com.tripleclub.dto.UserDto;
+import com.tripleclub.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,10 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/users")
 @RequiredArgsConstructor
 public class UserController {
+    private final UserService userService;
     @GetMapping(value = "/{id}")
     public ResponseEntity getUser(@PathVariable String id){
-//        UserDto userDto = new UserDto();
-//        return new ResponseEntity<>(userDto, HttpStatus.OK);
-        return new ResponseEntity<>(null, HttpStatus.OK);
+        return new ResponseEntity<>(userService.getUserPoint(id), HttpStatus.OK);
     }
 }
