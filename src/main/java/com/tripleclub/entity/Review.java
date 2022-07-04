@@ -41,6 +41,6 @@ public class Review {
     }
 
     public void setBonus(List<Review> review){
-        if(review.size()!=0) isBonus = true;
+        if(review.size()==0) isBonus = true;
     }
 }

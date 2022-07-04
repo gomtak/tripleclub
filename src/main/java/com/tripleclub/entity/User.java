@@ -19,9 +19,9 @@ public class User {
     @Column(name = "name")
     private String name;
 
-    @OneToMany(mappedBy = "user")
-    private List<Mileage> mileageId;
-
-    @OneToMany(mappedBy = "user")
-    private List<Review> reviewId;
+//    @OneToMany(mappedBy = "user")
+//    private List<Mileage> mileageId;
+//
+//    @OneToMany(mappedBy = "user")
+//    private List<Review> reviewId;
 }

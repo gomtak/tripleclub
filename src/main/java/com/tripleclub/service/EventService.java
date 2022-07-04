@@ -27,8 +27,22 @@ public class EventService {
     @Transactional
     public User addEvent(EventDto eventDto) {
         Review review = saveReview(eventDto);
+        saveAttachedPhoto(eventDto, review);
         saveMileage(review);
         return userRepository.findById(UUID.fromString(eventDto.getUserId())).orElseThrow();
+    }
+
+    private void saveAttachedPhoto(EventDto eventDto, Review review) {
+        Iterable<AttachedPhoto> attachedPhotoList =
+                eventDto.getAttachedPhotoIds()
+                .stream()
+                .map(m->AttachedPhoto.builder()
+//                        .attachedPhotoId(UUID.fromString(m))
+                        .attachedPhotoId(m)
+                        .review(review)
+                        .build())
+                .collect(Collectors.toList());
+        attachedPhotoRepository.saveAll(attachedPhotoList);
     }
 
     @Transactional
