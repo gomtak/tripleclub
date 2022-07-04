@@ -1,6 +1,9 @@
 package com.tripleclub.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tripleclub.dto.EventDto;
+import com.tripleclub.dto.UserDto;
 import com.tripleclub.entity.User;
 import com.tripleclub.service.EventService;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +22,7 @@ public class EventController {
     private final EventService eventService;
 
     @PostMapping
-    public ResponseEntity eventHandler(@RequestBody EventDto eventDto){
+    public ResponseEntity eventHandler(@RequestBody EventDto eventDto) throws JsonProcessingException {
         User user = new User();
         if(REVIEW.equals(eventDto.getType())){
             if(ADD.equals(eventDto.getAction())){
@@ -30,7 +33,9 @@ public class EventController {
                 user = eventService.deleteEvent(eventDto);
             }
         }
-        return new ResponseEntity<>(user, HttpStatus.OK);
+//        ObjectMapper mapper = new ObjectMapper();
+//        String jsonString = mapper.writeValueAsString(eventService.setResponseEntity(user));
+        return new ResponseEntity<>(eventDto, HttpStatus.OK);
     }
 
 }

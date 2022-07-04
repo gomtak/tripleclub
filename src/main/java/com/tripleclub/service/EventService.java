@@ -1,6 +1,7 @@
 package com.tripleclub.service;
 
 import com.tripleclub.dto.EventDto;
+import com.tripleclub.dto.UserDto;
 import com.tripleclub.entity.AttachedPhoto;
 import com.tripleclub.entity.Mileage;
 import com.tripleclub.entity.Review;
@@ -10,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -27,31 +29,26 @@ public class EventService {
     @Transactional
     public User addEvent(EventDto eventDto) {
         Review review = saveReview(eventDto);
+
         saveAttachedPhoto(eventDto, review);
+
         saveMileage(review);
+
         return userRepository.findById(UUID.fromString(eventDto.getUserId())).orElseThrow();
     }
 
-    private void saveAttachedPhoto(EventDto eventDto, Review review) {
-        Iterable<AttachedPhoto> attachedPhotoList =
-                eventDto.getAttachedPhotoIds()
-                .stream()
-                .map(m->AttachedPhoto.builder()
-//                        .attachedPhotoId(UUID.fromString(m))
-                        .attachedPhotoId(m)
-                        .review(review)
-                        .build())
-                .collect(Collectors.toList());
-        attachedPhotoRepository.saveAll(attachedPhotoList);
-    }
+
 
     @Transactional
     public User modEvent(EventDto eventDto) {
-        getAttachedPhoto(eventDto);
-        Review review = reviewRepository.findById(UUID.fromString(eventDto.getUserId())).orElseThrow();
-//                review.setContent("");
-//                review.setAttachedPhotoIds(getAttachedPhoto(eventDto));
+        Review review = reviewRepository.findById(UUID.fromString(eventDto.getReviewId())).orElseThrow();
+
+        review.modifyReview(eventDto.getContent());
         reviewRepository.save(review);
+
+        attachedPhotoRepository.deleteByReviewId(review.getReviewId());
+        saveAttachedPhoto(eventDto, review);
+
         saveMileage(review);
 
         return userRepository.findById(UUID.fromString(eventDto.getUserId())).orElseThrow();
@@ -59,9 +56,14 @@ public class EventService {
 
     @Transactional
     public User deleteEvent(EventDto eventDto) {
-        Review review = reviewRepository.findById(UUID.fromString(eventDto.getUserId())).orElseThrow();
+        Review review = reviewRepository.findById(UUID.fromString(eventDto.getReviewId())).orElseThrow();
+
+        attachedPhotoRepository.deleteByReviewId(review.getReviewId());
+
+        mileageRepository.deleteAllByReviewId(review.getReviewId());
+
         reviewRepository.delete(review);
-        saveMileage(review);
+
         return userRepository.findById(UUID.fromString(eventDto.getUserId())).orElseThrow();
     }
 
@@ -75,7 +77,18 @@ public class EventService {
         review.setBonus(reviewRepository.findByPlaceId(UUID.fromString(eventDto.getPlaceId())));
         return reviewRepository.save(review);
     }
-
+    private void saveAttachedPhoto(EventDto eventDto, Review review) {
+        Iterable<AttachedPhoto> attachedPhotoList =
+                eventDto.getAttachedPhotoIds()
+                        .stream()
+                        .map(m->AttachedPhoto.builder()
+//                        .attachedPhotoId(UUID.fromString(m))  // 예시 UUID 길이가 36자리를 넘는 문제가 있음.
+                                .attachedPhotoId(m)
+                                .review(review)
+                                .build())
+                        .collect(Collectors.toList());
+        attachedPhotoRepository.saveAll(attachedPhotoList);
+    }
     public void saveMileage(Review review){
         Mileage mileage = Mileage.builder()
                 .mileageId(UUID.randomUUID())
@@ -94,10 +107,12 @@ public class EventService {
         return result;
     }
 
-    private List<AttachedPhoto> getAttachedPhoto(EventDto eventDto) {
-        return eventDto.getAttachedPhotoIds()
-                .stream().map(m->attachedPhotoRepository.findById(UUID.fromString(m)).orElseThrow())
-                .collect(Collectors.toList());
-    }
 
+    public UserDto setResponseEntity(User user) {
+        return UserDto.builder()
+                .userId(user.getUserId().toString())
+                .name(user.getName())
+                .mileageList(mileageRepository.findByUserId(user.getUserId()))
+                .build();
+    }
 }

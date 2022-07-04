@@ -2,6 +2,7 @@ package com.tripleclub.repository;
 
 import com.tripleclub.entity.AttachedPhoto;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -13,4 +14,8 @@ public interface AttachedPhotoRepository extends JpaRepository<AttachedPhoto, UU
 
     @Query("select a from AttachedPhoto a where a.review.reviewId = :reviewId")
     List<AttachedPhoto> findByReviewId(UUID reviewId);
+
+    @Modifying
+    @Query("delete from AttachedPhoto a where a.review.reviewId = :reviewId")
+    void deleteByReviewId(UUID reviewId);
 }

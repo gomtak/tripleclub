@@ -16,10 +16,10 @@ public class Mileage extends BaseEntity{
     @Column(name = "mileage_id")
     @Type(type="uuid-char")
     private UUID mileageId;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "review_id")
     private Review review;
     private int point;

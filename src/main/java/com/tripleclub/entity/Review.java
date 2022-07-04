@@ -12,7 +12,7 @@ import java.util.UUID;
 @Entity
 @NoArgsConstructor
 @Getter
-public class Review {
+public class Review extends BaseEntity{
     @Id
     @Type(type="uuid-char")
     @Column(name = "review_id")
@@ -42,5 +42,8 @@ public class Review {
 
     public void setBonus(List<Review> review){
         if(review.size()==0) isBonus = true;
+    }
+    public void modifyReview(String content){
+        this.content = content;
     }
 }

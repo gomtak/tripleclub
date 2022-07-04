@@ -1,6 +1,7 @@
 package com.tripleclub.entity;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
@@ -10,6 +11,7 @@ import java.util.UUID;
 
 @Entity
 @Data
+@NoArgsConstructor
 public class User {
     @Id
     @Column(name = "user_id")

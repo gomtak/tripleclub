@@ -15,7 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
     @GetMapping(value = "/{id}")
     public ResponseEntity getUser(@PathVariable String id){
-        UserDto userDto = new UserDto();
-        return new ResponseEntity<>(userDto, HttpStatus.OK);
+//        UserDto userDto = new UserDto();
+//        return new ResponseEntity<>(userDto, HttpStatus.OK);
+        return new ResponseEntity<>(null, HttpStatus.OK);
     }
 }
