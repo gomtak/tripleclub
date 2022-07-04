@@ -1,50 +1,46 @@
 package com.tripleclub.entity;
 
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Data
 @NoArgsConstructor
+@Getter
 public class Review {
     @Id
     @Type(type="uuid-char")
+    @Column(name = "review_id")
     private UUID reviewId;
     private String content;
 
-    @OneToMany(mappedBy = "review")
-    private List<AttachedPhoto> attachedPhotoIds = new ArrayList<>();
-
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @Type(type="uuid-char")
     @JoinColumn(name = "user_id")
     private User user;
-    @OneToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @Type(type="uuid-char")
     @JoinColumn(name = "place_id")
     private Place place;
 
-    @Column(name = "is_first")
-    private boolean isFirst;
+    @Column(name = "is_bonus")
+    private boolean isBonus;
 
     @Builder
-    public Review(UUID reviewId, String content, List<AttachedPhoto> attachedPhotoIds, User user, Place place, boolean isFirst) {
+    public Review(UUID reviewId, String content, User user, Place place, boolean isBonus) {
         this.reviewId = reviewId;
         this.content = content;
-        this.attachedPhotoIds = attachedPhotoIds;
         this.user = user;
         this.place = place;
-        this.isFirst = isFirst;
+        this.isBonus = isBonus;
     }
-    public int countPoint() {
-        int count = 0;
-        if(this.content.length()>0) count ++;
-        if(this.attachedPhotoIds.size()>0) count ++;
-        return count;
+
+    public void setBonus(List<Review> review){
+        if(review.size()!=0) isBonus = true;
     }
 }

@@ -10,6 +10,6 @@ import java.util.UUID;
 
 @Repository
 public interface MileageRepository extends JpaRepository<Mileage, UUID> {
-    @Query("select m.mileageId from Mileage m where m.review = :reviewId")
+    @Query("select m.mileageId from Mileage m where m.review.reviewId = :reviewId")
     Optional<Mileage> findByReviewId(UUID reviewId);
 }

@@ -15,6 +15,13 @@ public class User {
     @Column(name = "user_id")
     @Type(type="uuid-char")
     private UUID userId;
+
+    @Column(name = "name")
+    private String name;
+
     @OneToMany(mappedBy = "user")
-    private List<Mileage> mileage = new ArrayList<>();
+    private List<Mileage> mileageId;
+
+    @OneToMany(mappedBy = "user")
+    private List<Review> reviewId;
 }

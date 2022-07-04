@@ -26,32 +26,22 @@ public class EventService {
 
     @Transactional
     public User addEvent(EventDto eventDto) {
-        Review review = Review.builder()
-                .reviewId(UUID.fromString(eventDto.getReviewId()))
-                .content(eventDto.getContent())
-                .attachedPhotoIds(getAttachedPhoto(eventDto))
-                .user(userRepository.findById(UUID.fromString(eventDto.getUserId())).orElseThrow())
-                .place(placeRepository.findById(UUID.fromString(eventDto.getPlaceId())).orElseThrow())
-                .build();
-        review.setFirst(reviewRepository.findByPlaceId(UUID.fromString(eventDto.getPlaceId()))==null?true:false);
-        reviewRepository.save(review);
+        Review review = saveReview(eventDto);
         saveMileage(review);
-
         return userRepository.findById(UUID.fromString(eventDto.getUserId())).orElseThrow();
     }
+
     @Transactional
     public User modEvent(EventDto eventDto) {
         getAttachedPhoto(eventDto);
         Review review = reviewRepository.findById(UUID.fromString(eventDto.getUserId())).orElseThrow();
-                review.setContent("");
-                review.setAttachedPhotoIds(getAttachedPhoto(eventDto));
+//                review.setContent("");
+//                review.setAttachedPhotoIds(getAttachedPhoto(eventDto));
         reviewRepository.save(review);
         saveMileage(review);
 
         return userRepository.findById(UUID.fromString(eventDto.getUserId())).orElseThrow();
     }
-
-
 
     @Transactional
     public User deleteEvent(EventDto eventDto) {
@@ -60,14 +50,36 @@ public class EventService {
         saveMileage(review);
         return userRepository.findById(UUID.fromString(eventDto.getUserId())).orElseThrow();
     }
+
+    private Review saveReview(EventDto eventDto) {
+        Review review = Review.builder()
+                .reviewId(UUID.fromString(eventDto.getReviewId()))
+                .content(eventDto.getContent())
+                .user(userRepository.findById(UUID.fromString(eventDto.getUserId())).orElseThrow())
+                .place(placeRepository.findById(UUID.fromString(eventDto.getPlaceId())).orElseThrow())
+                .build();
+        review.setBonus(reviewRepository.findByPlaceId(UUID.fromString(eventDto.getPlaceId())));
+        return reviewRepository.save(review);
+    }
+
     public void saveMileage(Review review){
-        Mileage mileage = mileageRepository.findByReviewId(review.getReviewId()).orElse(mileage = Mileage.builder()
+        Mileage mileage = Mileage.builder()
                 .mileageId(UUID.randomUUID())
                 .review(review)
-                .user(review.getUser()).build());
-        mileage.setPoint(review.isFirst()?review.countPoint()+1:review.countPoint());
+                .user(review.getUser())
+                .point(countPoint(review))
+                .build();
         mileageRepository.save(mileage);
     }
+
+    private int countPoint(Review review) {
+        int result = 0;
+        if(review.getContent().length() > 0) result++;
+        if(review.isBonus()) result++;
+        if(attachedPhotoRepository.findByReviewId(review.getReviewId()).size()>0) result++;
+        return result;
+    }
+
     private List<AttachedPhoto> getAttachedPhoto(EventDto eventDto) {
         return eventDto.getAttachedPhotoIds()
                 .stream().map(m->attachedPhotoRepository.findById(UUID.fromString(m)).orElseThrow())
