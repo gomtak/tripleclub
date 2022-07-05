@@ -17,7 +17,7 @@ import java.util.UUID;
 public class UserDto{
 
     private String userId;
-    private String name;
+    private String userName;
     private List<Mileage> mileageList;
 
 }

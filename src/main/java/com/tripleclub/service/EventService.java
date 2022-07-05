@@ -111,7 +111,7 @@ public class EventService {
     public UserDto setResponseEntity(User user) {
         return UserDto.builder()
                 .userId(user.getUserId().toString())
-                .name(user.getUserName())
+                .userName(user.getUserName())
                 .mileageList(mileageRepository.findByUserId(user.getUserId()))
                 .build();
     }

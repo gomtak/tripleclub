@@ -1,4 +1,4 @@
-package com.tripleclub.controller;
+package com.tripleclub.api;
 
 import com.tripleclub.dto.ErrorResponse;
 import org.springframework.data.crossstore.ChangeSetPersister;

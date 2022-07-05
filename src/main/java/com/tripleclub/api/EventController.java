@@ -1,9 +1,7 @@
-package com.tripleclub.controller;
+package com.tripleclub.api;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tripleclub.dto.EventDto;
-import com.tripleclub.dto.UserDto;
 import com.tripleclub.entity.User;
 import com.tripleclub.service.EventService;
 import lombok.RequiredArgsConstructor;
