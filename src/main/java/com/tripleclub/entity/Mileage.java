@@ -20,6 +20,7 @@ public class Mileage extends BaseEntity{
     private UUID mileageId;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
+    @JsonBackReference
     private User user;
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "review_id")

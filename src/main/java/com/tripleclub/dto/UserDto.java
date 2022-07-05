@@ -2,6 +2,7 @@ package com.tripleclub.dto;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tripleclub.entity.Mileage;
@@ -18,6 +19,7 @@ public class UserDto{
 
     private String userId;
     private String userName;
+    @JsonManagedReference
     private List<Mileage> mileageList;
 
 }

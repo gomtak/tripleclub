@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -52,7 +53,6 @@ public class EventService {
         saveAttachedPhoto(eventDto, review);
 
         saveMileage(review);
-
         return userRepository.findById(UUID.fromString(eventDto.getUserId())).orElseThrow();
     }
 
