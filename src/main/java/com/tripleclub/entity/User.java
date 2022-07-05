@@ -18,8 +18,8 @@ public class User {
     @Type(type="uuid-char")
     private UUID userId;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "user_name")
+    private String userName;
 
 //    @OneToMany(mappedBy = "user")
 //    private List<Mileage> mileageId;

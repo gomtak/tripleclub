@@ -4,7 +4,6 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: qwer1234
-
   jpa:
     database-platform: org.hibernate.dialect.MariaDB103Dialect
     hibernate:
@@ -12,8 +11,11 @@ spring:
     show-sql: true
     generate-ddl: true
 
-sql:
-  init:
+  sql:
+    init:
       schema-locations: classpath*:sql/schema.sql
       data-locations: classpath*:sql/data.sql
       mode: always
+
+server:
+  port: 8090
