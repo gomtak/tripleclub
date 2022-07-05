@@ -1,5 +1,6 @@
 package com.tripleclub.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,10 +23,12 @@ public class Review extends BaseEntity{
     @ManyToOne(fetch = FetchType.LAZY)
     @Type(type="uuid-char")
     @JoinColumn(name = "user_id")
+    @JsonBackReference
     private User user;
     @ManyToOne(fetch = FetchType.LAZY)
     @Type(type="uuid-char")
     @JoinColumn(name = "place_id")
+    @JsonBackReference
     private Place place;
 
     @Column(name = "is_bonus")

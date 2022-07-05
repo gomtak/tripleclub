@@ -33,9 +33,9 @@ public class EventController {
                 user = eventService.deleteEvent(eventDto);
             }
         }
-//        ObjectMapper mapper = new ObjectMapper();
-//        String jsonString = mapper.writeValueAsString(eventService.setResponseEntity(user));
-        return new ResponseEntity<>(eventDto, HttpStatus.OK);
+        ObjectMapper mapper = new ObjectMapper();
+        String jsonString = mapper.writeValueAsString(eventService.setResponseEntity(user));
+        return new ResponseEntity<>(jsonString, HttpStatus.OK);
     }
 
 }

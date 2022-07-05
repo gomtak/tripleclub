@@ -18,13 +18,6 @@ public class UserDto{
 
     private String userId;
     private String name;
-    @JsonBackReference
-    @JsonManagedReference
     private List<Mileage> mileageList;
 
-    public void covertUserDto() throws JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper();
-        String jsonString = mapper.writeValueAsString(this.mileageList);
-//        System.out.println();
-    }
 }
