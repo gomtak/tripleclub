@@ -13,10 +13,18 @@ public class MileageJpqlRepository {
     private final EntityManager em;
 
     public List<Mileage> getUserMileage (String userId){
-        String query = "select * " +
-                "from " +
-                "( select * from mileage where user_id = :userId "
-                + "order by created_at desc) t group by t.review_id";
+        String query =
+                "SELECT \n" +
+                "    t.*\n" +
+                "FROM mileage t\n" +
+                "INNER JOIN\n" +
+                "    (\n" +
+                "    select *, MAX(created_at) AS MaxCreatedAt\n" +
+                "    FROM mileage\n" +
+                "    GROUP BY review_id\n" +
+                "    ) sub\n" +
+                "ON  t.created_at = sub.MaxCreatedAt\n" +
+                "AND t.user_id = :userId";
         return em.createNativeQuery(query, Mileage.class)
                 .setParameter("userId", userId)
                 .getResultList();

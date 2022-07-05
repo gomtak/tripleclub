@@ -19,7 +19,7 @@ public class UserDto{
 
     private String userId;
     private String userName;
-    @JsonManagedReference
-    private List<Mileage> mileageList;
+//    @JsonManagedReference
+//    private List<Mileage> mileageList;
 
 }

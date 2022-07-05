@@ -114,7 +114,7 @@ public class EventService {
         return UserDto.builder()
                 .userId(user.getUserId().toString())
                 .userName(user.getUserName())
-                .mileageList(mileageRepository.findByUserId(user.getUserId()))
+//                .mileageList(mileageRepository.findByUserId(user.getUserId()))
                 .build();
     }
 }
