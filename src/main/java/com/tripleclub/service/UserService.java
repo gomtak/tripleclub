@@ -17,6 +17,8 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public int getUserPoint(String userId){
-        return mileageJpqlRepository.getUserMileage(userId);
+        return mileageJpqlRepository.getUserMileage(userId)
+                .stream()
+                .mapToInt(m->m.getPoint()).sum();
     }
 }

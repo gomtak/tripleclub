@@ -12,13 +12,14 @@ import java.util.List;
 public class MileageJpqlRepository {
     private final EntityManager em;
 
-    public int getUserMileage (String userId){
-        String query = "select sum(t.point) " +
+    public List<Mileage> getUserMileage (String userId){
+        String query = "select * " +
                 "from " +
                 "( select * from mileage where user_id = :userId "
-                + "order by created_at desc) t group by t.user_id";
-        return Integer.parseInt(em.createNativeQuery(query)
-                .setParameter("userId", userId).getSingleResult().toString());
+                + "order by created_at desc) t group by t.review_id";
+        return em.createNativeQuery(query, Mileage.class)
+                .setParameter("userId", userId)
+                .getResultList();
 
     }
 }
