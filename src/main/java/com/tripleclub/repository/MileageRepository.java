@@ -21,4 +21,6 @@ public interface MileageRepository extends JpaRepository<Mileage, UUID> {
 
     @Query("select m from Mileage m where m.user.userId = :userId")
     List<Mileage> findByUserId(UUID userId);
+
+
 }

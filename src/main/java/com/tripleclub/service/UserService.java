@@ -1,6 +1,7 @@
 package com.tripleclub.service;
 
 import com.tripleclub.entity.Mileage;
+import com.tripleclub.repository.MileageJpqlRepository;
 import com.tripleclub.repository.MileageRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -11,9 +12,11 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class UserService {
-    private final MileageRepository mileageRepository;
+    private final MileageJpqlRepository mileageJpqlRepository;
 
-    public List<Mileage> getUserPoint(String userId){
-        return mileageRepository.findByUserId(UUID.fromString(userId));
+    public int getUserPoint(String userId){
+        return mileageJpqlRepository.getUserMileage(userId)
+                .stream()
+                .mapToInt(m->m.getPoint()).sum();
     }
 }

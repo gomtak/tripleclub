@@ -16,6 +16,7 @@ public class UserController {
     private final UserService userService;
     @GetMapping(value = "/{id}")
     public ResponseEntity getUser(@PathVariable String id){
-        return new ResponseEntity<>(null, HttpStatus.OK);
+        String result = "User Id : "+ id + "\n적립 포인트 : " + userService.getUserPoint(id);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }
