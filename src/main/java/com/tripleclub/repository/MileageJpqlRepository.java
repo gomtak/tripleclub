@@ -16,7 +16,7 @@ public class MileageJpqlRepository {
         String query = "select sum(t.point) " +
                 "from " +
                 "( select * from mileage where user_id = :userId "
-                + "order by created_at desc) t group by t.review_id";
+                + "order by created_at desc) t group by t.user_id";
         return Integer.parseInt(em.createNativeQuery(query)
                 .setParameter("userId", userId).getSingleResult().toString());
 

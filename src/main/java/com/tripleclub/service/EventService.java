@@ -28,6 +28,8 @@ public class EventService {
 
     @Transactional
     public User addEvent(EventDto eventDto) {
+        if(reviewRepository.findByUserInPlace(UUID.fromString(eventDto.getUserId()), UUID.fromString(eventDto.getPlaceId())).isPresent()) throw new RuntimeException("해당 장소에 리뷰를 작성한적 있습니다.");
+
         Review review = saveReview(eventDto);
 
         saveAttachedPhoto(eventDto, review);
